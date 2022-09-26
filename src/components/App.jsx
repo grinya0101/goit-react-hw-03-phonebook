@@ -13,6 +13,24 @@ export class App extends Component {
     filter: ''
   }
 
+  componentDidMount(){
+    const contacts = JSON.parse(localStorage.getItem("contacts"));
+    if (contacts.length) {
+      this.setState({
+        contacts,
+      }) 
+    }
+    
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+     const {contacts} = this.state
+     if (prevState !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+     }
+     
+  }
+
   addContacts = (data) => {
     if(this.isDuplicate(data)) {
       return alert(`${data.name} - ${data.number} is already on the site`)
